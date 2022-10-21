@@ -1,0 +1,66 @@
+---
+title: "Week 1"
+output: html_notebook
+---
+```{r}
+BiocManager::install(c("genefu",
+                       "COPDSexualDimorphism",
+                       "gwascat",
+                       "hgu133a.db",
+                       "genomicsclass/tissuesGeneExpression"))
+```
+
+```{r}
+knitr::opts_knit$set(root.dir = '/Users/eilishmcmaster/introductory_bioconda/week_1')
+```
+
+# Assessment: overview 
+Information on the 70 gene signature used in the Mammaprint algorithm is in the sig.gene70 data.frame.  You can have a look at this:
+You can see from this that there are 70 records in the data frame, and that there are diverse ways of describing the "genes" in the signature.
+```{r}
+library(genefu)
+
+data(sig.gene70)
+?sig.gene70
+dim(sig.gene70)
+head(sig.gene70)[,1:6]
+```
+
+
+
+# Assessment: Molecular basis for phenotypic variation 
+In the video we talk about phenotypes. Here we show some examples of what we mean by phenotypes, how they can be coded in R objects, and how we compute with them. Later in the course we will perform analyses that statistically connect these phenotypes to measured molecular outcomes. Here we explore the use of data frames to store phenoypes (columns) from several individuals (rows).
+
+Load the COPDSexualDimorphism.data package. This package includes data that can be used to compare the incidence of COPD and emphysema by gender and smoking status. Use the commands:
+```{r}
+library(COPDSexualDimorphism.data)
+data(lgrc.expr.meta)
+View(expr.meta)
+```
+to add the expr.meta data.frame to your workspace. The pkyrs variable in the expr.meta data.frame represents pack years smoked. Other variables include gender and diagmaj (disease status). These variables correspond to phenotypes.
+
+
+# Assessment: Chromosomes and SNPs 
+The Bioconductor gwascat package includes information on a catalog of GWAS results. Load the gwascat package and check the version of the GWAS catalog stored in GRCh37 (hg19) coordinates.
+```{r}
+library(gwascat)
+data(ebicat_2020_04_30)
+ebicat_2020_04_30
+```
+
+# Assessment: Microarray data 
+
+We will be using microarray data included in the tissuesGeneExpression package.
+
+Load the dataset:
+```{r}
+library(tissuesGeneExpression)
+data(tissuesGeneExpression)
+```
+This code loads a matrix, e, containing gene expression measurements obtained using a microarray technology. More specifically, the matrix contains (log-scale) intensity data for thousands of microarray probes (rows of the matrix) and several samples (columns of the matrix). Using the probe IDs, we can map rows of the matrix to genes.
+
+```{r}
+head(e[,1:5]) # expression measurements from microarray, probes are rows, samples are columns
+table(tissue) # this vector contains the tissue type for each column of the matrix e
+```
+
